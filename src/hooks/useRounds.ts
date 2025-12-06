@@ -1,4 +1,3 @@
-// src/hooks/useRounds.ts
 import { useStore } from '../store/store';
 
 export const useRounds = () => {
