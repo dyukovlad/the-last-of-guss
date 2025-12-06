@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 
-export const useTimer = (initialTime: number = Date.now()): [number, () => void] => {
+const dateNow = () => Date.now();
+
+export const useTimer = (
+  initialTime: number = dateNow()
+): [number, () => void] => {
   const [currentTime, setCurrentTime] = useState(initialTime);
   const intervalRef = useRef<number | null>(null); // Using number for setTimeout ID
 
