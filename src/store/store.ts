@@ -1,76 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from 'zustand';
 import axios from 'axios';
-
-// Define types based on OpenAPI documentation
-interface LoginResponse {
-  username: string;
-  role: 'SURVIVOR' | 'NIKITA' | 'ADMIN';
-  token: string;
-}
-
-interface RoundResponse {
-  id: string; // UUID string according to OpenAPI spec
-  startTime: string; // date-time format
-  endTime: string; // date-time format
-  totalScore: number;
-  createdAt: string; // date-time format
-}
-
-interface RoundDetailsResponse {
-  round: RoundResponse;
-  topStats: Array<{
-    taps: number;
-    score: number;
-    user: {
-      username: string;
-    };
-  }>;
-  myStats: {
-    taps: number;
-    score: number;
-  };
-}
-
-interface TapResponse {
-  taps: number;
-  score: number;
-}
-
-interface User {
-  id: number;
-  username: string;
-  balance: number;
-  token?: string;
-  isAdmin?: boolean;
-}
-
-interface Round {
-  id: string; // UUID string according to OpenAPI spec
-  startTime: string;
-  endTime: string;
-  totalScore: number;
-  createdAt: string;
-  taps?: number; // Added from tap response
-  score?: number; // Added from tap response
-}
-
-interface StoreState {
-  user: User | null;
-  rounds: Round[];
-  error: string | null;
-  loading: boolean;
-  token: string | null;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
-  fetchRounds: () => Promise<void>;
-  createRound: () => Promise<RoundResponse>;
-  tapGoose: (roundId: string) => Promise<void>;
-  fetchRoundDetails: (roundId: string) => Promise<RoundDetailsResponse>;
-}
-
-// API base URL
-const API_BASE_URL = 'http://v2991160.hosted-by-vdsina.ru';
+import type {
+  StoreState,
+  User,
+  Round,
+  RoundResponse,
+  TapResponse,
+  LoginResponse,
+} from '../types';
+import { API_BASE_URL } from '../constants/api';
 
 // Create the store
 export const useStore = create<StoreState>((set, get) => ({
